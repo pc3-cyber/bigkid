@@ -1,1 +1,58 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>蕁麻疹を聴く — 再生ページ</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+           display:flex; height:100vh; margin:0; align-items:center; justify-content:center;
+           background:linear-gradient(180deg,#f7fbff,#ffffff); color:#0b2447; }
+    .card { text-align:center; padding:28px; border-radius:12px; box-shadow:0 8px 30px rgba(0,0,0,0.08); max-width:420px; }
+    button { font-size:18px; padding:14px 22px; border-radius:10px; border:none; cursor:pointer; }
+    .hint { margin-top:12px; color:#556; font-size:13px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>蕁麻疹を聴く</h2>
+    <p class="hint">スマホの音量を確認して、下のボタンをタップして再生してください。</p>
+    <button id="playBtn">▶️ 再生する</button>
+    <p class="hint">自動再生を試みますが、ブラウザの設定次第で動作しない場合があります。</p>
+  </div>
 
+  <audio id="audio" preload="auto" src="jinmachine.mp3"></audio>
+
+  <script>
+    const audio = document.getElementById('audio');
+    const btn = document.getElementById('playBtn');
+
+    // ボタンで再生／一時停止
+    btn.addEventListener('click', async () => {
+      if (audio.paused) {
+        try {
+          await audio.play();
+          btn.textContent = '⏸ 停止';
+        } catch(e) {
+          // 自動再生や再生拒否のハンドリング
+          alert('再生できませんでした。画面をタップしてみてください。');
+        }
+      } else {
+        audio.pause();
+        btn.textContent = '▶️ 再生する';
+      }
+    });
+
+    // ページ読み込み時に自動再生を試みる（多くはユーザー操作が必要）
+    window.addEventListener('load', async () => {
+      try {
+        await audio.play();
+        btn.textContent = '⏸ 停止';
+      } catch(e) {
+        // 自動再生できない場合、ボタンを目立たせる（利用者のタップを促す）
+        btn.style.boxShadow = '0 6px 18px rgba(11,36,71,0.15)';
+      }
+    });
+  </script>
+</body>
+</html>
