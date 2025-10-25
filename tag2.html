@@ -3,18 +3,42 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title> 酒井羽海のテーマを聴く — 再生ページ</title>
+  <title>酒井羽海のテーマを聴く — 再生ページ</title>
   <style>
+    /* 全体を中央に寄せる & 背景を少し柔らかく */
     body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
            display:flex; height:100vh; margin:0; align-items:center; justify-content:center;
-           background:linear-gradient(180deg,#f7fbff,#ffffff); color:#0b2447; }
-    .card { text-align:center; padding:28px; border-radius:12px; box-shadow:0 8px 30px rgba(0,0,0,0.08); max-width:420px; }
-    button { font-size:18px; padding:14px 22px; border-radius:10px; border:none; cursor:pointer; }
-    .hint { margin-top:12px; color:#556; font-size:13px; }
+           background:linear-gradient(180deg,#f8faff,#e7eff6); /* 背景色をグラデーションに */
+           color:#0b2447; }
+    /* カード（枠）のデザインを少し豪華に */
+    .card { text-align:center; padding:35px; border-radius:18px; 
+           background-color:#ffffff; /* カードの背景色 */
+           box-shadow:0 12px 45px rgba(0,0,0,0.1); /* 影を強く */
+           max-width:400px; /* カードの最大幅 */
+           border:1px solid #e0e6ed; /* 軽い枠線 */ }
+    /* 画像のスタイルを追加 */
+    .album-image {
+        width: 100%; /* カードの幅に合わせる */
+        max-width: 280px; /* 画像の最大サイズ */
+        height: auto; /* 比率を保つ */
+        border-radius: 12px; /* 角を丸くする */
+        margin-bottom: 25px; /* 下にスペース */
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* 画像に影 */
+    }
+    /* ボタンのデザインを少し変更 */
+    button { font-size:18px; padding:16px 30px; border-radius:30px; border:none; cursor:pointer; 
+             background-color:#5a73e1; /* ボタンの色を青系に */
+             color:#ffffff; transition:background-color 0.3s ease; /* ホバー時の変化を滑らかに */
+             box-shadow:0 6px 15px rgba(0,0,0,0.1); /* ボタンに影 */ }
+    button:hover { background-color:#4a62cc; /* ホバー時の色 */ }
+    h2 { margin-bottom:15px; color:#2c3e50; } /* タイトルの色と下のスペース */
+    .hint { margin-top:15px; color:#7f8c8d; font-size:13px; }
   </style>
 </head>
 <body>
   <div class="card">
+    <img src="umi.jpg" alt="BIG KID アルバムアート" class="album-image" />
+    
     <h2>酒井羽海のテーマを聴く</h2>
     <p class="hint">スマホの音量を確認して、下のボタンをタップして再生してください。</p>
     <button id="playBtn">▶️ 再生する</button>
@@ -22,6 +46,7 @@
   </div>
 
   <audio id="audio" preload="auto" src="sakai.mp3"></audio>
+
 
   <script>
     const audio = document.getElementById('audio');
@@ -33,13 +58,14 @@
         try {
           await audio.play();
           btn.textContent = '⏸ 停止';
+          btn.style.backgroundColor = '#e74c3c'; // 停止中はボタンを赤系に
         } catch(e) {
-          // 自動再生や再生拒否のハンドリング
           alert('再生できませんでした。画面をタップしてみてください。');
         }
       } else {
         audio.pause();
         btn.textContent = '▶️ 再生する';
+        btn.style.backgroundColor = '#5a73e1'; // 再生中はボタンを青系に
       }
     });
 
@@ -48,9 +74,12 @@
       try {
         await audio.play();
         btn.textContent = '⏸ 停止';
+        btn.style.backgroundColor = '#e74c3c';
       } catch(e) {
-        // 自動再生できない場合、ボタンを目立たせる（利用者のタップを促す）
-        btn.style.boxShadow = '0 6px 18px rgba(11,36,71,0.15)';
+        // 自動再生できなかった場合、ボタンを目立たせる
+        btn.style.boxShadow = '0 0 20px rgba(90, 115, 225, 0.5)'; // ボタンを光らせる
+        btn.textContent = '▶️ 再生する';
+        btn.style.backgroundColor = '#5a73e1';
       }
     });
   </script>
